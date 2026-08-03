@@ -122,7 +122,23 @@
 
         <div class="nav">
             <a href="main_page.html" class="oval-btn">GO BACK</a>
+            
+            <!-- NEW AFTER PARTY BUTTON -->
+            <button onclick="accessAfterParty()" class="after-party-trigger">AFTER PARTY ACCESS</button>
+            
             <p class="omar-credit">made by omar</p>
+        </div>
+    </div> <!-- End of main-content -->
+
+    <!-- AFTER PARTY MODAL (Popup Window) -->
+    <div id="partyModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3 class="gallery-title" style="font-size: 20px; margin-top: 10px;">AFTER PARTY</h3>
+            <div class="mini-blue-line"></div>
+            <p class="venue-name" style="font-size: 18px;">Private Celebration</p>
+            <p class="venue-location">Click below to find the secret location for our small after party celebration.</p>
+            <a href="https://www.google.com/maps?q=29.968673706054688,30.958772659301758&z=17&hl=en" target="_blank" class="map-link-btn">OPEN IN GOOGLE MAPS</a>
         </div>
     </div>
 
@@ -222,6 +238,8 @@
                     ${deleteBtnHtml}
                 `;
                 wishesDisplay.appendChild(card);
+                
+                
             });
         }
 
@@ -233,6 +251,31 @@
                 loadWishes();
             }
         }
+
+ function accessAfterParty() {
+            const password = prompt("Please enter the access code:");
+            if (password === "6627") {
+                document.getElementById('partyModal').style.display = 'flex';
+            } else if (password !== null) {
+                alert("Wrong password. Please try again.");
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('partyModal').style.display = 'none';
+        }
+
+        // Close modal if user clicks outside the box
+        window.onclick = function(event) {
+            const modal = document.getElementById('partyModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        /* Keep your existing script functions below this... */
+        // ... toggleMusic(), loadWishes(), etc.
+
     </script>
 </body>
 </html>
