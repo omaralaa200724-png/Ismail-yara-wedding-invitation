@@ -1,260 +1,408 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700;800&display=swap');
 
-body {
-    background-image: url("backimage.png");
-    
-    /* 'cover' ensures the image fills the screen without stretching it like a noodle */
-    background-size: cover; 
-    background-repeat: no-repeat;
-    background-position: center center;
-    
-    /* This makes the background stay still while you scroll */
-    background-attachment: fixed; 
-    
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Inter', sans-serif;
-    color: #1e293b;
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+html, body {
     overflow-x: hidden;
 }
 
-/* --- MOBILE FIX --- */
-/* This part only works on phones and tablets */
-@media screen and (max-width: 768px) {
-    body {
-        /* On mobile, 'fixed' usually breaks. We change it to 'scroll' so it looks smooth. */
-        background-attachment: scroll;
-        
-        /* We change '100% 100%' to 'cover' so the flowers don't look squashed */
-        background-size: cover; 
-        
-        /* This ensures the background doesn't get too long and blurry */
-        background-position: top center; 
-    }
-    
-    .main-content {
-        padding: 40px 15px; /* Give more space on the sides for small screens */
-    }
-
-    .title {
-        font-size: 24px; /* Make title slightly smaller so it fits one line on phone */
-    }
-}
-
-.main-content { text-align: center; width: 100%; max-width: 500px; padding: 80px 20px; }
-
-/* FLOATING MUSIC BUTTON STYLE */
-.music-controller { position: fixed; bottom: 30px; right: 30px; z-index: 9999; }
-.floating-music-btn {
-    background: #1e293b; color: white; border: none; padding: 12px 25px; border-radius: 50px;
-    font-weight: 800; font-size: 12px; letter-spacing: 1px; cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 10px; transition: 0.3s;
-}
-.floating-music-btn.playing { background: #60a5fa; }
-.floating-music-btn:hover { transform: scale(1.1); }
-
-/* Names & Titles */
-.title { font-family: 'Cinzel', serif; font-size: 30px; letter-spacing: 5px; margin-bottom: 10px; }
-.announcement { font-size: 12px; font-weight: 700; letter-spacing: 2px; line-height: 1.6; margin-bottom: 20px; }
-.blue-line { width: 40px; height: 1px; background-color: #cbd5e1; margin: 0 auto 30px; }
-.names-stack { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 50px; }
-.main-name { font-family: 'Cinzel', serif; font-size: 34px; letter-spacing: 6px; }
-.role { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #64748b; }
-.small-ampersand { font-family: 'Playfair Display', serif; font-style: italic; font-size: 28px; color: #60a5fa; }
-.name-finish-line { width: 50px; height: 2px; background: linear-gradient(90deg, transparent, #60a5fa, transparent); margin-top: 15px; }
-
-/* Gallery */
-.gallery-title { font-family: 'Cinzel', serif; font-size: 26px; letter-spacing: 6px; margin-bottom: 25px; font-weight: 700; }
-.photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 50px; }
-.photo-placeholder { background: #f1f5f9; border-radius: 15px; overflow: hidden; height: 180px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-.photo-placeholder img { width: 100%; height: 100%; object-fit: cover; }
-
-/* Reception & Countdown */
-.reception-section { margin-bottom: 50px; }
-.big-time { display: block; font-size: 40px; font-weight: 800; color: #1e293b; }
-.big-date { display: block; font-size: 16px; font-weight: 700; letter-spacing: 1px; margin: 10px 0 30px; }
-.countdown-container { display: flex; justify-content: center; gap: 10px; }
-.time-unit { background: rgba(96, 165, 250, 0.1); padding: 10px; border-radius: 12px; min-width: 65px; }
-.time-unit span { font-size: 24px; font-weight: 800; }
-.time-unit label { font-size: 9px; font-weight: 800; color: #60a5fa; }
-
-/* Calendar & Venue */
-.calendar-wrapper { width: 100%; max-width: 360px; margin: 40px auto; border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-.calendar-wrapper img { width: 100%; border-radius: 20px; }
-.mini-blue-line { width: 45px; height: 2px; background-color: #60a5fa; margin: 40px auto 15px; }
-.venue-name { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; letter-spacing: 2px; }
-.venue-location { font-size: 14px; color: #64748b; margin: 5px 0 15px; }
-.map-link-btn { display: inline-block; padding: 10px 25px; border-radius: 50px; border: 1px solid #60a5fa; color: #60a5fa; text-decoration: none; font-weight: 700; font-size: 11px; }
-
-/* --- TIMELINE SCHEDULE STYLING --- */
-.schedule-section {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding: 0 20px;
-}
-
-.timeline {
-    position: relative;
-    max-width: 400px; /* Increased slightly for better spacing */
-    margin: 40px auto;
-}
-
-/* The Vertical Line - Fixed Alignment */
-.timeline::before {
-    content: '';
-    position: absolute;
-    top: 5px;
-    bottom: 5px;
-    left: 50%;
-    width: 2px;
-    margin-left: -1px; /* Perfectly centers a 2px line on the 50% mark */
-    background-color: #60a5fa;
-    opacity: 0.3;
-}
-
-.timeline-item {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 40px;
-    position: relative;
-    z-index: 1;
-}
-
-/* 
-   IMPORTANT: Both .time and .event must have flex: 1 
-   and flex-basis: 0 to ensure the center is exactly at 50% 
-*/
-.time {
-    flex: 1;
-    text-align: right;
-    padding-right: 25px;
-    font-family: 'Inter', sans-serif;
-    font-size: 20px;
-    color: #1e293b;
-    font-weight: 700;
-
-    /* THE FIX: This makes all numbers the same width */
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: "tnum"; 
-}
-
-/* This is the container for the dot, centered on the line */
-.dot-container {
-    width: 20px; /* Fixed width for the center gutter */
+body {
+    /* Set to back.png or back.jpg depending on your file name */
+    background-image: url("back.png"); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-shrink: 0;
-}
-
-.dot {
-    width: 14px;
-    height: 14px;
-    background-color: #1e293b; 
-    border-radius: 50%;
-    border: 3px solid white; /* Matches the background to look clean */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.event {
-    flex: 1;
-    flex-basis: 0;
-    text-align: left;
-    padding-left: 30px;
     font-family: 'Inter', sans-serif;
-    font-size: 18px;
     color: #1e293b;
-    font-weight: 800;
 }
 
-/* Guestbook */
-.guestbook-form { max-width: 350px; margin: 20px auto; display: flex; flex-direction: column; gap: 10px; }
-.guestbook-form input, .guestbook-form textarea { padding: 15px; border-radius: 15px; border: 1px solid #cbd5e1; font-family: 'Inter'; }
-.oval-btn-small { padding: 12px; background: #1e293b; color: white; border-radius: 50px; border: none; font-weight: 700; cursor: pointer; }
-.wish-card { position: relative; background: white; padding: 20px; border-radius: 20px; margin-top: 15px; text-align: left; border-left: 5px solid #60a5fa; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-.delete-wish { position: absolute; top: 10px; right: 15px; background: none; border: none; color: #cbd5e1; font-size: 20px; cursor: pointer; }
-
-/* Final Button */
-.oval-btn { display: inline-block; padding: 16px 80px; background: #1e293b; color: white; border-radius: 50px; text-decoration: none; font-weight: 800; margin-top: 40px; }
-.final-mini-line { width: 30px; height: 1px; background: #60a5fa; margin: 30px auto; opacity: 0.4; }
-
-.omar-credit {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;        /* Very small font */
-    color: #94a3b8;        /* Muted gray color */
-    margin-top: 15px;      /* Space below the button */
-    letter-spacing: 1px;
-    text-transform: lowercase;
-    opacity: 0.6;          /* Makes it look professional and subtle */
-    font-weight: 400;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-    background-image: url("back.png");
-    background-size: 100% 100%; background-repeat: no-repeat; background-position: center; background-attachment: fixed;
-    min-height: 100vh; display: flex; justify-content: center; align-items: center; font-family: 'Inter', sans-serif;
-    color: #1e293b; overflow-x: hidden;
+/* Ensure background image stays covered nicely on mobile devices */
+@media screen and (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-size: cover;
+        background-position: center top;
+    }
 }
 
-.main-content { text-align: center; width: 100%; max-width: 500px; padding: 80px 20px; }
+.main-content { 
+    text-align: center; 
+    width: 100%; 
+    max-width: 500px; 
+    padding: 80px 20px; 
+}
 
-/* FLOATING MUSIC BUTTON */
-.music-controller { position: fixed; bottom: 30px; right: 30px; z-index: 9999; }
+/* --- FLOATING MUSIC BUTTON --- */
+.music-controller { 
+    position: fixed; 
+    bottom: 25px; 
+    right: 25px; 
+    z-index: 10000; 
+}
+
 .floating-music-btn {
-    background: #1e293b; color: white; border: none; padding: 12px 25px; border-radius: 50px;
-    font-weight: 800; font-size: 12px; letter-spacing: 1px; cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 10px; transition: 0.3s;
-}
-.floating-music-btn.playing { background: #60a5fa; }
-
-/* Titles & Text */
-.title { font-family: 'Cinzel', serif; font-size: 30px; letter-spacing: 5px; margin-bottom: 10px; }
-.announcement { font-size: 12px; font-weight: 700; letter-spacing: 2px; line-height: 1.6; margin-bottom: 20px; }
-.blue-line { width: 40px; height: 1px; background-color: #cbd5e1; margin: 0 auto 30px; }
-
-/* Names Stack */
-.names-stack { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 50px; }
-.main-name { font-family: 'Cinzel', serif; font-size: 34px; letter-spacing: 6px; }
-.role { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #64748b; }
-.small-ampersand { font-family: 'Playfair Display', serif; font-style: italic; font-size: 28px; color: #60a5fa; }
-.name-finish-line { width: 50px; height: 2px; background: linear-gradient(90deg, transparent, #60a5fa, transparent); margin-top: 15px; }
-
-/* Timeline Alignment Fixed */
-.timeline { position: relative; max-width: 400px; margin: 40px auto; }
-.timeline::before { content: ''; position: absolute; top: 5px; bottom: 5px; left: 50%; width: 2px; margin-left: -1px; background-color: #60a5fa; opacity: 0.3; }
-.timeline-item { display: flex; align-items: center; width: 100%; margin-bottom: 40px; position: relative; z-index: 1; }
-.time { flex: 1; flex-basis: 0; text-align: right; padding-right: 30px; font-size: 22px; font-weight: 700; }
-.dot-container { width: 20px; display: flex; justify-content: center; flex-shrink: 0; }
-.dot { width: 14px; height: 14px; background-color: #1e293b; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-.event { flex: 1; flex-basis: 0; text-align: left; padding-left: 30px; font-size: 18px; font-weight: 800; }
-
-/* Guestbook */
-.wish-card { background: white; padding: 20px; border-radius: 20px; margin-top: 15px; text-align: left; border-left: 5px solid #60a5fa; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-.wish-card h4 { font-size: 14px; font-weight: 800; color: #1e293b; text-transform: uppercase; }
-
-/* Credit & Buttons */
-.omar-credit { font-size: 10px; color: #94a3b8; text-transform: lowercase; margin-top: 15px; letter-spacing: 1px; opacity: 0.6; }
-.oval-btn { display: inline-block; padding: 16px 80px; background: #1e293b; color: white; border-radius: 50px; text-decoration: none; font-weight: 800; margin-top: 40px; }  
-
-.music-controller {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 10000; /* Keeps it above everything else */
+    background: #1e293b; 
+    color: white; 
+    border: none; 
+    padding: 14px 24px; 
+    border-radius: 50px;
+    font-weight: 800; 
+    font-size: 12px; 
+    letter-spacing: 1px; 
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    transition: 0.3s;
 }
 
+.floating-music-btn.playing { 
+    background: #60a5fa; 
+}
+
+.floating-music-btn:hover { 
+    transform: scale(1.05); 
+}
+
+/* --- TITLES & TEXT --- */
+.title { 
+    font-family: 'Cinzel', serif; 
+    font-size: 30px; 
+    letter-spacing: 5px; 
+    margin-bottom: 10px; 
+}
+
+.announcement { 
+    font-size: 12px; 
+    font-weight: 700; 
+    letter-spacing: 2px; 
+    line-height: 1.6; 
+    margin-bottom: 20px; 
+}
+
+.blue-line { 
+    width: 40px; 
+    height: 1px; 
+    background-color: #cbd5e1; 
+    margin: 0 auto 30px; 
+}
+
+/* --- NAMES STACK --- */
+.names-stack { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 4px; 
+    margin-bottom: 50px; 
+}
+
+.main-name { 
+    font-family: 'Cinzel', serif; 
+    font-size: 34px; 
+    letter-spacing: 6px; 
+}
+
+.role { 
+    font-size: 11px; 
+    font-weight: 700; 
+    letter-spacing: 3px; 
+    color: #64748b; 
+}
+
+.small-ampersand { 
+    font-family: 'Playfair Display', serif; 
+    font-style: italic; 
+    font-size: 28px; 
+    color: #60a5fa; 
+}
+
+.name-finish-line { 
+    width: 50px; 
+    height: 2px; 
+    background: linear-gradient(90deg, transparent, #60a5fa, transparent); 
+    margin-top: 15px; 
+}
+
+/* --- GALLERY --- */
+.gallery-title { 
+    font-family: 'Cinzel', serif; 
+    font-size: 26px; 
+    letter-spacing: 6px; 
+    margin-bottom: 25px; 
+    font-weight: 700; 
+}
+
+.photo-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px; 
+    margin-bottom: 50px; 
+}
+
+.photo-placeholder { 
+    background: #f1f5f9; 
+    border-radius: 15px; 
+    overflow: hidden; 
+    height: 180px; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
+}
+
+.photo-placeholder img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+/* --- RECEPTION & COUNTDOWN --- */
+.reception-section { 
+    margin-bottom: 50px; 
+}
+
+.big-time { 
+    display: block; 
+    font-size: 40px; 
+    font-weight: 800; 
+    color: #1e293b; 
+}
+
+.big-date { 
+    display: block; 
+    font-size: 16px; 
+    font-weight: 700; 
+    letter-spacing: 1px; 
+    margin: 10px 0 30px; 
+}
+
+.countdown-container { 
+    display: flex; 
+    justify-content: center; 
+    gap: 10px; 
+}
+
+.time-unit { 
+    background: rgba(96, 165, 250, 0.1); 
+    padding: 10px; 
+    border-radius: 12px; 
+    min-width: 65px; 
+}
+
+.time-unit span { 
+    font-size: 24px; 
+    font-weight: 800; 
+}
+
+.time-unit label { 
+    font-size: 9px; 
+    font-weight: 800; 
+    color: #60a5fa; 
+    display: block;
+}
+
+/* --- CALENDAR & VENUE --- */
+.calendar-wrapper { 
+    width: 100%; 
+    max-width: 360px; 
+    margin: 40px auto; 
+    border-radius: 20px; 
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
+}
+
+.calendar-wrapper img { 
+    width: 100%; 
+    border-radius: 20px; 
+    display: block;
+}
+
+.mini-blue-line { 
+    width: 45px; 
+    height: 2px; 
+    background-color: #60a5fa; 
+    margin: 40px auto 15px; 
+}
+
+.venue-name { 
+    font-family: 'Cinzel', serif; 
+    font-size: 22px; 
+    font-weight: 700; 
+    letter-spacing: 2px; 
+}
+
+.venue-location { 
+    font-size: 14px; 
+    color: #64748b; 
+    margin: 5px 0 15px; 
+}
+
+.map-link-btn { 
+    display: inline-block; 
+    padding: 12px 28px; 
+    border-radius: 50px; 
+    border: 1px solid #60a5fa; 
+    color: #60a5fa; 
+    text-decoration: none; 
+    font-weight: 700; 
+    font-size: 11px; 
+    letter-spacing: 1px;
+}
+
+/* --- TIMELINE SCHEDULE --- */
+.schedule-section {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 0 10px;
+}
+
+.timeline { 
+    position: relative; 
+    max-width: 400px; 
+    margin: 40px auto; 
+}
+
+.timeline::before { 
+    content: ''; 
+    position: absolute; 
+    top: 5px; 
+    bottom: 5px; 
+    left: 50%; 
+    width: 2px; 
+    margin-left: -1px; 
+    background-color: #60a5fa; 
+    opacity: 0.3; 
+}
+
+.timeline-item { 
+    display: flex; 
+    align-items: center; 
+    width: 100%; 
+    margin-bottom: 40px; 
+    position: relative; 
+    z-index: 1; 
+}
+
+.time { 
+    flex: 1; 
+    flex-basis: 0; 
+    text-align: right; 
+    padding-right: 25px; 
+    font-family: 'Inter', sans-serif;
+    font-size: 20px; 
+    font-weight: 700; 
+    color: #1e293b;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+}
+
+.dot-container { 
+    width: 20px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    flex-shrink: 0; 
+}
+
+.dot { 
+    width: 14px; 
+    height: 14px; 
+    background-color: #1e293b; 
+    border-radius: 50%; 
+    border: 3px solid white; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.event { 
+    flex: 1; 
+    flex-basis: 0; 
+    text-align: left; 
+    padding-left: 25px; 
+    font-family: 'Inter', sans-serif;
+    font-size: 18px; 
+    font-weight: 800; 
+    color: #1e293b;
+}
+
+/* --- GUESTBOOK --- */
+.guestbook-form { 
+    max-width: 350px; 
+    margin: 20px auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+}
+
+.guestbook-form input, 
+.guestbook-form textarea { 
+    padding: 15px; 
+    border-radius: 15px; 
+    border: 1px solid #cbd5e1; 
+    font-family: 'Inter', sans-serif; 
+    font-size: 16px; /* Prevents auto-zoom on iOS devices */
+    width: 100%;
+}
+
+.oval-btn-small { 
+    padding: 14px; 
+    background: #1e293b; 
+    color: white; 
+    border-radius: 50px; 
+    border: none; 
+    font-weight: 700; 
+    cursor: pointer; 
+}
+
+.wish-card {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 15px;
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.wish-card h4 { 
+    font-size: 14px; 
+    font-weight: 800; 
+    color: #1e293b; 
+    text-transform: uppercase; 
+    margin-bottom: 5px;
+}
+
+.wish-card p {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.4;
+}
+
+/* --- NAVIGATION & AFTER PARTY --- */
+.oval-btn { 
+    display: inline-block; 
+    padding: 16px 70px; 
+    background: #1e293b; 
+    color: white; 
+    border-radius: 50px; 
+    text-decoration: none; 
+    font-weight: 800; 
+    margin-top: 40px; 
+}
 
 .after-party-trigger {
     display: block;
-    margin: 20px auto 5px auto; /* Centered, placed just before credit */
+    margin: 20px auto 5px auto;
     background: transparent;
     border: 1px solid #60a5fa;
     color: #60a5fa;
-    padding: 10px 25px;
+    padding: 12px 25px;
     border-radius: 50px;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -269,15 +417,25 @@ body {
     color: white;
 }
 
+.omar-credit { 
+    font-size: 10px; 
+    color: #94a3b8; 
+    text-transform: lowercase; 
+    margin-top: 15px; 
+    letter-spacing: 1px; 
+    opacity: 0.6; 
+}
+
 /* --- MODAL POPUP STYLES --- */
 .modal-overlay {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(30, 41, 59, 0.85); /* Dark blue blur background */
+    height: 100dvh;
+    background: rgba(30, 41, 59, 0.85);
     z-index: 20000;
     justify-content: center;
     align-items: center;
@@ -285,7 +443,7 @@ body {
 }
 
 .modal-content {
-    background: #fdfaf3; /* Matches your guestbook card color */
+    background: #fdfaf3;
     padding: 30px;
     border-radius: 25px;
     width: 90%;
@@ -315,4 +473,50 @@ body {
     margin: 15px 0 25px 0;
     font-size: 14px;
     line-height: 1.5;
+}
+
+/* --- MOBILE SPECIFIC MEDIA QUERIES --- */
+@media screen and (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-size: cover;
+        background-position: top center;
+    }
+    
+    .main-content {
+        padding: 40px 15px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .main-name {
+        font-size: 28px;
+    }
+
+    .music-controller {
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .time {
+        font-size: 16px;
+        padding-right: 15px;
+    }
+
+    .event {
+        font-size: 15px;
+        padding-left: 15px;
+    }
+
+    .oval-btn {
+        padding: 14px 45px;
+    }
+
+    .photo-placeholder {
+        height: 140px;
+    }
 }
