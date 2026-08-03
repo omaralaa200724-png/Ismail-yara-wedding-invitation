@@ -7,6 +7,28 @@
     <link rel="stylesheet" href="details.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ADDED CSS FOR THE DELETE BUTTON */
+        .wish-card { position: relative; }
+        .delete-wish-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #fee2e2;
+            color: #ef4444;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 700;
+        }
+        .delete-wish-btn:hover { background: #fecaca; transform: scale(1.05); }
+    </style>
 </head>
 <body>
 
@@ -18,10 +40,10 @@
         </button>
     </div>
 
-    <!-- AUDIO ELEMENT (Uses your perfectly cut song) -->
+    <!-- AUDIO ELEMENT -->
     <audio id="weddingMusic" loop autoplay>
-    <source src="wedding-song.mp3" type="audio/mpeg">
-</audio>
+        <source src="wedding-song.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="main-content">
         <h1 class="title">CEREMONY INFO</h1>
@@ -48,7 +70,7 @@
         <div class="reception-section">
             <h2 class="gallery-title">RECEPTION INFO</h2>
             <div class="time-date-box">
-                <span class="big-time">20:00</span>
+                <span class="big-time">08:00</span>
                 <div class="date-divider"></div>
                 <span class="big-date">FRIDAY | 04 | SEPTEMBER</span>
             </div>
@@ -68,23 +90,23 @@
         <div class="venue-section">
             <div class="mini-blue-line"></div> 
             <h3 class="gallery-title">RECEPTION VENUE</h3>
-            <p class="venue-name">esm el qa3a</p>
-            <p class="venue-location">mkan el qa3a</p>
-            <a href="https://www.google.com/maps?q=29.98638343811035,30.989543914794922" target="_blank" class="map-link-btn">VIEW ON MAP</a>
+            <p class="venue-name">LAMOUR VIP</p>
+            <p class="venue-location">Al-Remaya Square, Giza</p>
+            <a href="https://maps.app.goo.gl/52Trp4tfgz3rrwZH6" target="_blank" class="map-link-btn">VIEW ON MAP</a>
         </div>
 
         <div class="schedule-section">
             <div class="mini-blue-line"></div>
             <h3 class="gallery-title">DAY SCHEDULE</h3>
             <div class="timeline">
-            <div class="timeline-item"><div class="time">18:30</div><div class="dot-container"><div class="dot"></div></div><div class="event">Welcome</div></div>
-            <div class="timeline-item"><div class="time">19:00</div><div class="dot-container"><div class="dot"></div></div><div class="event">Reception</div></div>
-            <div class="timeline-item"><div class="time">20:00</div><div class="dot-container"><div class="dot"></div></div><div class="event">Party</div></div>
-            <div class="timeline-item"><div class="time">20:45</div><div class="dot-container"><div class="dot"></div></div><div class="event">Being ready</div></div>
-            <div class="timeline-item"><div class="time">21:30</div><div class="dot-container"><div class="dot"></div></div><div class="event">Buffet</div></div>
-            <div class="timeline-item"><div class="time">22:15</div><div class="dot-container"><div class="dot"></div></div><div class="event">temporary</div></div>
-            <div class="timeline-item"><div class="time">00:00</div><div class="dot-container"><div class="dot"></div></div><div class="event">End</div></div>
-        </div>
+                <div class="timeline-item"><div class="time">06:30</div><div class="dot-container"><div class="dot"></div></div><div class="event">Welcome</div></div>
+                <div class="timeline-item"><div class="time">07:00</div><div class="dot-container"><div class="dot"></div></div><div class="event">Reception</div></div>
+                <div class="timeline-item"><div class="time">08:00</div><div class="dot-container"><div class="dot"></div></div><div class="event">Party</div></div>
+                <div class="timeline-item"><div class="time">08:45</div><div class="dot-container"><div class="dot"></div></div><div class="event">Being ready</div></div>
+                <div class="timeline-item"><div class="time">09:30</div><div class="dot-container"><div class="dot"></div></div><div class="event">Buffet</div></div>
+                <div class="timeline-item"><div class="time">10:15</div><div class="dot-container"><div class="dot"></div></div><div class="event">temporary</div></div>
+                <div class="timeline-item"><div class="time">00:00</div><div class="dot-container"><div class="dot"></div></div><div class="event">End</div></div>
+            </div>
         </div>
 
         <div class="guestbook-section">
@@ -105,50 +127,37 @@
     </div>
 
     <script>
-        /* --- 1. Automated Music Logic --- */
-const music = document.getElementById("weddingMusic");
-const btn = document.getElementById("musicBtn");
-const icon = document.getElementById("musicIcon");
-const text = document.getElementById("musicText");
+        /* --- 1. Music Logic --- */
+        const music = document.getElementById("weddingMusic");
+        const btn = document.getElementById("musicBtn");
+        const icon = document.getElementById("musicIcon");
+        const text = document.getElementById("musicText");
 
-// This function handles the button click
-function toggleMusic() {
-    if (music.paused) {
-        playMusic();
-    } else {
-        pauseMusic();
-    }
-}
-
-function playMusic() {
-    music.play();
-    btn.classList.add("playing");
-    icon.className = "fas fa-pause";
-    text.innerText = "STOP MUSIC";
-}
-
-function pauseMusic() {
-    music.pause();
-    btn.classList.remove("playing");
-    icon.className = "fas fa-play";
-    text.innerText = "PLAY MUSIC";
-}
-
-// TRY TO PLAY AUTOMATICALLY ON LOAD
-window.addEventListener('DOMContentLoaded', () => {
-    // We wrap this in a timeout to give the browser a split second to initialize
-    setTimeout(() => {
-        music.play().then(() => {
-            // If autoplay works, update the button UI
+        function toggleMusic() {
+            if (music.paused) { playMusic(); } else { pauseMusic(); }
+        }
+        function playMusic() {
+            music.play();
             btn.classList.add("playing");
             icon.className = "fas fa-pause";
             text.innerText = "STOP MUSIC";
-        }).catch(error => {
-            // If autoplay is blocked, the button stays as "PLAY MUSIC"
-            console.log("Autoplay was blocked by the browser. User must click play.");
+        }
+        function pauseMusic() {
+            music.pause();
+            btn.classList.remove("playing");
+            icon.className = "fas fa-play";
+            text.innerText = "PLAY MUSIC";
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                music.play().then(() => {
+                    btn.classList.add("playing");
+                    icon.className = "fas fa-pause";
+                    text.innerText = "STOP MUSIC";
+                }).catch(e => console.log("Autoplay blocked"));
+            }, 500);
         });
-    }, 500);
-});
 
         /* --- 2. Countdown Logic --- */
         const targetDate = new Date("September 4, 2026 20:00:00").getTime();
@@ -161,25 +170,68 @@ window.addEventListener('DOMContentLoaded', () => {
             document.getElementById("seconds").innerText = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        /* --- 3. Guestbook Logic --- */
+        /* --- 3. Guestbook Logic (Updated for Deleting own messages) --- */
+        
+        // Create or get a unique User ID for this browser
+        let myId = localStorage.getItem('wedding_user_id');
+        if (!myId) {
+            myId = 'user_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('wedding_user_id', myId);
+        }
+
         const wishForm = document.getElementById('guestbook-form');
         const wishesDisplay = document.getElementById('wishes-display');
+
         window.addEventListener('load', loadWishes);
+
         wishForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-            wishes.unshift({ name: document.getElementById('guest-name').value, wish: document.getElementById('guest-wish').value });
+            
+            // Add unique ID to the message and mark it with the current user's ID
+            const newWish = {
+                id: Date.now(), 
+                ownerId: myId,
+                name: document.getElementById('guest-name').value,
+                wish: document.getElementById('guest-wish').value
+            };
+            
+            wishes.unshift(newWish);
             localStorage.setItem('weddingWishes', JSON.stringify(wishes));
-            wishForm.reset(); loadWishes();
+            wishForm.reset(); 
+            loadWishes();
         });
+
         function loadWishes() {
             wishesDisplay.innerHTML = '';
-            (JSON.parse(localStorage.getItem('weddingWishes')) || []).forEach(item => {
+            const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
+            
+            wishes.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'wish-card';
-                card.innerHTML = `<h4>${item.name}</h4><p>"${item.wish}"</p>`;
+                
+                // Only show delete button if the browser's ID matches the ownerId of the wish
+                const deleteBtnHtml = item.ownerId === myId ? 
+                    `<button class="delete-wish-btn" onclick="deleteWish(${item.id})">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>` : '';
+
+                card.innerHTML = `
+                    <h4>${item.name}</h4>
+                    <p>"${item.wish}"</p>
+                    ${deleteBtnHtml}
+                `;
                 wishesDisplay.appendChild(card);
             });
+        }
+
+        function deleteWish(id) {
+            if (confirm("Are you sure you want to delete your message?")) {
+                let wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
+                wishes = wishes.filter(w => w.id !== id);
+                localStorage.setItem('weddingWishes', JSON.stringify(wishes));
+                loadWishes();
+            }
         }
     </script>
 </body>
