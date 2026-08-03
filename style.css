@@ -7,13 +7,17 @@
     box-sizing: border-box;
 }
 
+html, body {
+    overflow-x: hidden;
+}
+
 body {
     background: linear-gradient(135deg, #238ea0 0%, #4b2c8a 100%);
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic Viewport Height for mobile browsers */
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
     font-family: 'Inter', sans-serif;
 }
 
@@ -24,6 +28,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     z-index: 0;
 }
 
@@ -52,6 +57,7 @@ body {
     perspective: 1500px;
     margin-top: 80px;
     cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 /* 3D Envelope Base - The side triangles part (Lighter) */
@@ -231,7 +237,6 @@ body {
 .envelope-wrapper.open .invitation-card {
     opacity: 1;
     pointer-events: auto;
-    /* Changed from -220px to -275px to pull the card higher */
     transform: translate(-50%, -140px) scale(1); 
     z-index: 10;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
@@ -240,6 +245,26 @@ body {
 /* Responsive Scaling for smaller screens */
 @media (max-width: 600px) {
     .envelope-wrapper {
-        transform: scale(0.7);
+        width: 90vw;
+        max-width: 380px;
+        transform: scale(0.85);
+        margin-top: 100px;
+    }
+    .invitation-card {
+        width: 310px;
+        height: 450px;
+        padding: 25px 18px;
+    }
+    .envelope-wrapper.open .invitation-card {
+        transform: translate(-50%, -170px) scale(0.95);
+    }
+}
+
+@media (max-width: 400px) {
+    .envelope-wrapper {
+        transform: scale(0.75);
+    }
+    .envelope-wrapper.open .invitation-card {
+        transform: translate(-50%, -190px) scale(0.9);
     }
 }
