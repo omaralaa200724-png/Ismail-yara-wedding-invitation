@@ -1,10 +1,46 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    background-image: url("file:///C:/Users/Omar/Downloads/ChatGPT%20Image%20Aug%203,%202026,%2003_46_22%20AM.png");
-    background-size: 100% 100%; background-repeat: no-repeat; background-position: center; background-attachment: fixed;
-    min-height: 100vh; display: flex; justify-content: center; align-items: center; font-family: 'Inter', sans-serif;
-    color: #1e293b; overflow-x: hidden;
+    background-image: url("backimage.png");
+    
+    /* 'cover' ensures the image fills the screen without stretching it like a noodle */
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center center;
+    
+    /* This makes the background stay still while you scroll */
+    background-attachment: fixed; 
+    
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    color: #1e293b;
+    overflow-x: hidden;
+}
+
+/* --- MOBILE FIX --- */
+/* This part only works on phones and tablets */
+@media screen and (max-width: 768px) {
+    body {
+        /* On mobile, 'fixed' usually breaks. We change it to 'scroll' so it looks smooth. */
+        background-attachment: scroll;
+        
+        /* We change '100% 100%' to 'cover' so the flowers don't look squashed */
+        background-size: cover; 
+        
+        /* This ensures the background doesn't get too long and blurry */
+        background-position: top center; 
+    }
+    
+    .main-content {
+        padding: 40px 15px; /* Give more space on the sides for small screens */
+    }
+
+    .title {
+        font-size: 24px; /* Make title slightly smaller so it fits one line on phone */
+    }
 }
 
 .main-content { text-align: center; width: 100%; max-width: 500px; padding: 80px 20px; }
@@ -200,4 +236,11 @@ body {
 
 /* Credit & Buttons */
 .omar-credit { font-size: 10px; color: #94a3b8; text-transform: lowercase; margin-top: 15px; letter-spacing: 1px; opacity: 0.6; }
-.oval-btn { display: inline-block; padding: 16px 80px; background: #1e293b; color: white; border-radius: 50px; text-decoration: none; font-weight: 800; margin-top: 40px; }      
+.oval-btn { display: inline-block; padding: 16px 80px; background: #1e293b; color: white; border-radius: 50px; text-decoration: none; font-weight: 800; margin-top: 40px; }  
+
+.music-controller {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000; /* Keeps it above everything else */
+}
