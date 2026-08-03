@@ -129,14 +129,16 @@ body {
 */
 .time {
     flex: 1;
-    flex-basis: 0; 
     text-align: right;
-    padding-right: 30px;
+    padding-right: 25px;
     font-family: 'Inter', sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     color: #1e293b;
     font-weight: 700;
-    letter-spacing: 1px;
+
+    /* THE FIX: This makes all numbers the same width */
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum"; 
 }
 
 /* This is the container for the dot, centered on the line */
