@@ -1,5 +1,5 @@
-/* Import all necessary fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@1,400;1,700&family=Inter:wght@300;400;600&display=swap');
+/* 1. Import Premium Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700&display=swap');
 
 * {
     margin: 0;
@@ -8,193 +8,238 @@
 }
 
 body {
-    /* REPLACE THE URL BELOW with your Adobe Stock image path or link */
-    background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2029&auto=format&fit=crop'); 
-    
-    background-size: cover;       /* Makes the image cover the whole screen */
-    background-position: center;  /* Centers the image */
-    background-attachment: fixed; /* Keeps the background from moving when you scroll */
-    background-repeat: no-repeat;
-    
+    background: linear-gradient(135deg, #238ea0 0%, #4b2c8a 100%);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    overflow: hidden;
     font-family: 'Inter', sans-serif;
-    margin: 0;
 }
 
-
-/* Background Animated Blobs (Keeping these for the outer look) */
+/* --- BACKGROUND ANIMATED BLOBS --- */
 .background-blobs {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1;
-    background: radial-gradient(circle at top left, rgba(30, 58, 138, 0.3) 0%, transparent 50%); /* Subtle top-left glow */
+    z-index: 0;
 }
+
 .blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px); /* Heavy blur for that "smoke" look */
-    opacity: 0.6;
-}
-.blob-1 {
-    width: 600px;
-    height: 600px;
-    background: #1e40af; /* Royal Blue */
-    top: -150px;
-    left: -150px;
-    animation: pulse-blue 10s infinite alternate;
+    filter: blur(120px);
+    opacity: 0.4;
+    animation: move 20s infinite alternate;
 }
 
-/* The Subtle Purple Light in Bottom Right */
-.blob-2 {
-    width: 500px;
-    height: 500px;
-    background: #4c1d95; /* Deep Purple */
-    bottom: -100px;
-    right: -100px;
-    opacity: 0.3;
-    animation: pulse-purple 12s infinite alternate;
-}
+.blob-1 { width: 600px; height: 600px; background: #1e40af; top: -150px; left: -150px; }
+.blob-2 { width: 500px; height: 500px; background: #4c1d95; bottom: -100px; right: -100px; }
 
 @keyframes move {
     from { transform: translate(0, 0); }
     to { transform: translate(100px, 100px); }
 }
 
-/* The Card Container */
-.container {
+/* --- ENVELOPE WRAPPER --- */
+.envelope-wrapper {
+    position: relative;
+    width: 520px;
+    height: 350px;
+    z-index: 10;
+    perspective: 1500px;
+    margin-top: 80px;
+    cursor: pointer;
+}
+
+/* 3D Envelope Base - The side triangles part (Lighter) */
+.envelope {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 420px;
-    padding: 20px;
+    height: 100%;
+    background: #253346;
+    border-radius: 8px;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
 }
 
-.profile-card {
-    background-image: url("file:///C:/Users/Omar/Downloads/ChatGPT%20Image%20Aug%203,%202026,%2003_46_22%20AM.png");
-    background-size: cover;
-    background-position: center;
-    background-color: #fdfbf7;
-    border-radius: 60px; /* Increased from 40px to 60px */
-    padding: 60px 35px;
-    text-align: center;
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
-    border: none;
+/* Top Flap (Darker) */
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #192231;
+    clip-path: polygon(0 0, 50% 62%, 100% 0);
+    z-index: 5;
+    transform-origin: top;
+    /* Smooth transition for opening */
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.4s;
+    filter: drop-shadow(0px 6px 5px rgba(0,0,0,0.5));
 }
 
-/* Heart Icon / Avatar */
-.avatar img {
-    width: 90px;
-    height: 90px;
+/* Envelope Front Pocket (Lighter) */
+.pocket {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #253346;
+    clip-path: polygon(0 35%, 50% 62%, 100% 35%, 100% 100%, 0 100%);
+    z-index: 4;
+    border-radius: 0 0 8px 8px;
+    filter: drop-shadow(0px -2px 4px rgba(0,0,0,0.2));
+}
+
+/* Wax Seal */
+.wax-seal {
+    position: absolute;
+    top: 198px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65px;
+    height: 65px;
+    background: radial-gradient(circle at 35% 35%, #dc2626, #7f1d1d);
     border-radius: 50%;
-    /* Changed border color to match the blue flowers */
-    border: 2px solid #5dade2; 
-    margin-bottom: 30px;
-    padding: 5px;
+    z-index: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    border: 2px solid #991b1b;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Names - CHANGED TO DARK COLOR (#2c3e50) */
+.wax-seal .heart-icon {
+    font-size: 22px;
+}
+
+/* --- THE INVITATION CARD --- */
+.invitation-card {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    width: 380px;
+    height: 480px;
+    background: #fdfaf3;
+    border-radius: 30px;
+    padding: 35px 25px;
+    text-align: center;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    /* Delayed bounce transition for smoothness */
+    transition: 
+        transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.2) 0.5s, 
+        opacity 0.6s ease 0.5s,
+        z-index 0s 0.5s;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Interior Card Elements */
+.avatar-circle {
+    width: 70px;
+    height: 70px;
+    border: 2px solid #5dade2;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1e293b;
+    overflow: hidden;
+}
+
 .name {
     font-family: 'Cinzel', serif;
-    font-size: 32px;
-    letter-spacing: 6px; 
-    color: #2c3e50; 
+    font-size: 28px;
+    letter-spacing: 5px;
+    color: #1e293b;
+    line-height: 1.1;
     font-weight: 700;
-    text-transform: uppercase;
-    line-height: 1;
 }
 
-/* The Ampersand - CHANGED TO SOFT BLUE */
 .and-text {
-    display: block;
-    color: #5dade2;
     font-family: 'Playfair Display', serif;
-    font-size: 45px;
     font-style: italic;
-    margin: 15px 0;
+    font-size: 36px;
+    color: #5dade2;
+    display: block;
+    margin: 8px 0;
 }
 
-/* The Elegant Line - CHANGED TO DARK GRADIENT */
 .elegant-line {
-    width: 80px;
+    width: 50px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #2c3e50, transparent);
-    margin: 25px auto;
-    opacity: 0.3;
+    background: #cbd5e1;
+    margin: 15px auto;
 }
 
-/* Wedding Date - CHANGED TO DARK GREY */
 .wedding-date {
-    color: #2c3e50;
-    font-size: 1.3rem; /* Made slightly bigger */
     font-weight: 700;
-    margin-top: 10px;
-    margin-bottom: 5px;
+    color: #1e293b;
+    font-size: 16px;
 }
 
 .invite-text {
     color: #94a3b8;
-    font-size: 1rem;
-    margin-bottom: 40px;
-    font-weight: 400;
+    font-size: 13px;
+    margin-bottom: 25px;
 }
 
-.link-item {
-    display: inline-flex; /* Changed to inline-flex to fit the text better */
-    align-items: center;
-    justify-content: center;
-    padding: 18px 80px;  /* Added more horizontal padding for the oval look */
-    border-radius: 50px; /* THIS MAKES IT OVAL */
-    background: #2c3e50;
+.open-btn {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    background: #2c3748;
     color: white;
     text-decoration: none;
-    transition: all 0.3s ease;
+    padding: 14px 0;
+    border-radius: 50px;
     font-weight: 700;
-    font-size: 18px;
-    width: 80%;          /* Makes the button wide like the image */
+    font-size: 16px;
+    transition: 0.3s;
 }
 
-.link-item:hover {
-    background: #1a252f;
-    transform: scale(1.02);
+.open-btn:hover {
+    background: #1e293b;
+    transform: scale(1.03);
 }
 
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 100;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.8); /* Dark blur background */
-    backdrop-filter: blur(10px);
+/* ================= OPEN STATE ANIMATION ================= */
+
+/* 1. Flap opens first */
+.envelope-wrapper.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
 }
 
-/* Modal Content Box */
-.modal-content {
-    background-color: #fdfaf3;
-    margin: 15% auto;
-    padding: 40px;
-    border-radius: 40px;
-    width: 80%;
-    max-width: 350px;
-    text-align: center;
-    position: relative;
-    animation: slideUp 0.4s ease;
+/* 2. Seal disappears */
+.envelope-wrapper.open .wax-seal {
+    opacity: 0;
+    transform: translate(-50%, -20px) scale(0);
 }
 
-@keyframes slideUp {
-    from { transform: translateY(100px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+/* Update this specific section in your CSS */
+.envelope-wrapper.open .invitation-card {
+    opacity: 1;
+    pointer-events: auto;
+    /* Changed from -220px to -275px to pull the card higher */
+    transform: translate(-50%, -140px) scale(1); 
+    z-index: 10;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* Close Button */
-.close-btn {
-    position: absolute;
-    right: 20px; top: 15px;
-    font-size: 30px;
-    color: #1e293b;
-    cursor: pointer;
+/* Responsive Scaling for smaller screens */
+@media (max-width: 600px) {
+    .envelope-wrapper {
+        transform: scale(0.7);
+    }
 }
