@@ -159,19 +159,15 @@
         if (guestbookInput) guestbookInput.value = guestName;
     });
 
-   /* --- 1. Bulletproof Music Logic --- */
+  /* --- Mobile-Optimized Music Logic (English) --- */
 const music = document.getElementById("weddingMusic");
 const musicBtn = document.getElementById("musicBtn");
 const musicIcon = document.getElementById("musicIcon");
-const musicLabel = document.getElementById("musicText"); // Renamed from 'text'
+const musicLabel = document.getElementById("musicText");
 
 function toggleMusic() {
-    // If music is paused or hasn't started yet
-    if (music.paused) { 
-        playWeddingMusic(); 
-    } else { 
-        pauseWeddingMusic(); 
-    }
+    if (music.paused) { playWeddingMusic(); } 
+    else { pauseWeddingMusic(); }
 }
 
 function playWeddingMusic() {
@@ -179,9 +175,7 @@ function playWeddingMusic() {
         musicBtn.classList.add("playing");
         musicIcon.className = "fas fa-pause";
         musicLabel.innerText = "STOP MUSIC";
-    }).catch(error => {
-        console.log("Playback failed:", error);
-    });
+    }).catch(e => console.log("Playback blocked"));
 }
 
 function pauseWeddingMusic() {
@@ -190,6 +184,22 @@ function pauseWeddingMusic() {
     musicIcon.className = "fas fa-play";
     musicLabel.innerText = "PLAY MUSIC";
 }
+
+// THE MOBILE FIX: Trigger music on the very first touch/click on the screen
+function handleFirstInteraction() {
+    playWeddingMusic();
+    // Remove listeners so it doesn't keep trying to play every time you touch
+    window.removeEventListener('touchstart', handleFirstInteraction);
+    window.removeEventListener('click', handleFirstInteraction);
+}
+
+window.addEventListener('touchstart', handleFirstInteraction);
+window.addEventListener('click', handleFirstInteraction);
+
+// Still keep the auto-play attempt for Desktops
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => { playWeddingMusic(); }, 1000);
+});
 
 // Auto-play attempt when page loads
 window.addEventListener('DOMContentLoaded', () => {
