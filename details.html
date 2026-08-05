@@ -159,27 +159,53 @@
         if (guestbookInput) guestbookInput.value = guestName;
     });
 
-    /* --- 2. Music Logic --- */
-    const music = document.getElementById("weddingMusic");
-    const btn = document.getElementById("musicBtn");
-    const icon = document.getElementById("musicIcon");
-    const text = document.getElementById("musicText");
+   /* --- 1. Bulletproof Music Logic --- */
+const music = document.getElementById("weddingMusic");
+const musicBtn = document.getElementById("musicBtn");
+const musicIcon = document.getElementById("musicIcon");
+const musicLabel = document.getElementById("musicText"); // Renamed from 'text'
 
-    function toggleMusic() {
-        if (music.paused) { playMusic(); } else { pauseMusic(); }
+function toggleMusic() {
+    // If music is paused or hasn't started yet
+    if (music.paused) { 
+        playWeddingMusic(); 
+    } else { 
+        pauseWeddingMusic(); 
     }
-    function playMusic() {
-        music.play();
-        btn.classList.add("playing");
-        icon.className = "fas fa-pause";
-        text.innerText = "STOP MUSIC";
-    }
-    function pauseMusic() {
-        music.pause();
-        btn.classList.remove("playing");
-        icon.className = "fas fa-play";
-        text.innerText = "PLAY MUSIC";
-    }
+}
+
+function playWeddingMusic() {
+    music.play().then(() => {
+        musicBtn.classList.add("playing");
+        musicIcon.className = "fas fa-pause";
+        musicLabel.innerText = "STOP MUSIC";
+    }).catch(error => {
+        console.log("Playback failed:", error);
+    });
+}
+
+function pauseWeddingMusic() {
+    music.pause();
+    musicBtn.classList.remove("playing");
+    musicIcon.className = "fas fa-play";
+    musicLabel.innerText = "PLAY MUSIC";
+}
+
+// Auto-play attempt when page loads
+window.addEventListener('DOMContentLoaded', () => {
+    // Small delay to allow the page to settle
+    setTimeout(() => {
+        music.play().then(() => {
+            musicBtn.classList.add("playing");
+            musicIcon.className = "fas fa-pause";
+            musicLabel.innerText = "STOP MUSIC";
+        }).catch(() => {
+            console.log("Autoplay blocked by browser - waiting for user click.");
+            // Keep text as "PLAY MUSIC" until they click
+            musicLabel.innerText = "PLAY MUSIC";
+        });
+    }, 1000);
+});
 
     /* --- 3. Countdown Logic --- */
     const targetDate = new Date("September 4, 2026 20:00:00").getTime();
