@@ -1,4 +1,4 @@
-/* 1. Import Premium Fonts */
+/* --- 1. Premium Fonts Retained --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700&display=swap');
 
 * {
@@ -7,27 +7,23 @@
     box-sizing: border-box;
 }
 
-html, body {
-    overflow-x: hidden;
-}
-
+/* --- 2. Fixed Body Overflow & Viewport Height --- */
 body {
     background: linear-gradient(135deg, #238ea0 0%, #4b2c8a 100%);
-    min-height: 100vh;
-    min-height: 100dvh; /* Dynamic Viewport Height for mobile browsers */
+    min-height: 100dvh; /* Single, modern dynamic viewport height */
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden; /* Applied ONLY to body to prevent lag */
 }
 
-/* --- BACKGROUND ANIMATED BLOBS --- */
+/* --- 3. Animated Background Blobs --- */
 .background-blobs {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
     height: 100dvh;
     z-index: 0;
 }
@@ -48,7 +44,7 @@ body {
     to { transform: translate(100px, 100px); }
 }
 
-/* --- ENVELOPE WRAPPER --- */
+/* --- 4. Envelope Base Structure --- */
 .envelope-wrapper {
     position: relative;
     width: 520px;
@@ -60,7 +56,6 @@ body {
     transition: transform 0.3s ease;
 }
 
-/* 3D Envelope Base - The side triangles part (Lighter) */
 .envelope {
     position: absolute;
     top: 0;
@@ -69,10 +64,9 @@ body {
     height: 100%;
     background: #253346;
     border-radius: 8px;
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5); /* Elegant shadow */
 }
 
-/* Top Flap (Darker) */
 .flap {
     position: absolute;
     top: 0;
@@ -83,12 +77,10 @@ body {
     clip-path: polygon(0 0, 50% 62%, 100% 0);
     z-index: 5;
     transform-origin: top;
-    /* Smooth transition for opening */
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.4s;
     filter: drop-shadow(0px 6px 5px rgba(0,0,0,0.5));
 }
 
-/* Envelope Front Pocket (Lighter) */
 .pocket {
     position: absolute;
     top: 0;
@@ -102,7 +94,6 @@ body {
     filter: drop-shadow(0px -2px 4px rgba(0,0,0,0.2));
 }
 
-/* Wax Seal */
 .wax-seal {
     position: absolute;
     top: 198px;
@@ -122,11 +113,7 @@ body {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.wax-seal .heart-icon {
-    font-size: 22px;
-}
-
-/* --- THE INVITATION CARD --- */
+/* --- 5. Styled Invitation Card --- */
 .invitation-card {
     position: absolute;
     top: 10px;
@@ -141,15 +128,11 @@ body {
     z-index: 2;
     opacity: 0;
     pointer-events: none;
-    /* Delayed bounce transition for smoothness */
-    transition: 
-        transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.2) 0.5s, 
-        opacity 0.6s ease 0.5s,
-        z-index 0s 0.5s;
+    transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.2) 0.5s, 
+                opacity 0.6s ease 0.5s, z-index 0s 0.5s;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
-/* Interior Card Elements */
 .avatar-circle {
     width: 70px;
     height: 70px;
@@ -166,7 +149,7 @@ body {
 .name {
     font-family: 'Cinzel', serif;
     font-size: 28px;
-    letter-spacing: 5px;
+    letter-spacing: 3px; /* Reduced slightly to prevent wrap on scale */
     color: #1e293b;
     line-height: 1.1;
     font-weight: 700;
@@ -188,17 +171,8 @@ body {
     margin: 15px auto;
 }
 
-.wedding-date {
-    font-weight: 700;
-    color: #1e293b;
-    font-size: 16px;
-}
-
-.invite-text {
-    color: #94a3b8;
-    font-size: 13px;
-    margin-bottom: 25px;
-}
+.wedding-date { font-weight: 700; color: #1e293b; font-size: 16px; }
+.invite-text { color: #94a3b8; font-size: 13px; margin-bottom: 25px; }
 
 .open-btn {
     display: block;
@@ -214,26 +188,11 @@ body {
     transition: 0.3s;
 }
 
-.open-btn:hover {
-    background: #1e293b;
-    transform: scale(1.03);
-}
+.open-btn:hover { background: #1e293b; transform: scale(1.03); }
 
-/* ================= OPEN STATE ANIMATION ================= */
-
-/* 1. Flap opens first */
-.envelope-wrapper.open .flap {
-    transform: rotateX(180deg);
-    z-index: 1;
-}
-
-/* 2. Seal disappears */
-.envelope-wrapper.open .wax-seal {
-    opacity: 0;
-    transform: translate(-50%, -20px) scale(0);
-}
-
-/* Update this specific section in your CSS */
+/* --- 6. Open State Animation --- */
+.envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 1; }
+.envelope-wrapper.open .wax-seal { opacity: 0; transform: translate(-50%, -20px) scale(0); }
 .envelope-wrapper.open .invitation-card {
     opacity: 1;
     pointer-events: auto;
@@ -242,29 +201,25 @@ body {
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* Responsive Scaling for smaller screens */
+/* --- 7. Pure CSS Scaling for Mobile (The Fix) --- */
+/* No internal dimensions are modified, preserving the exact visual relationship */
 @media (max-width: 600px) {
-    .envelope-wrapper {
-        width: 90vw;
-        max-width: 380px;
-        transform: scale(0.85);
-        margin-top: 100px;
+    .envelope-wrapper { 
+        transform: scale(0.7); /* Scales down the entire 520px envelope */
+        margin-top: 120px; 
     }
-    .invitation-card {
-        width: 310px;
-        height: 450px;
-        padding: 25px 18px;
-    }
-    .envelope-wrapper.open .invitation-card {
-        transform: translate(-50%, -170px) scale(0.95);
+    .envelope-wrapper.open .invitation-card { 
+        /* Slightly higher pop-out distance on mobile to clear the pocket */
+        transform: translate(-50%, -180px) scale(1); 
     }
 }
 
 @media (max-width: 400px) {
-    .envelope-wrapper {
-        transform: scale(0.75);
+    .envelope-wrapper { 
+        transform: scale(0.6); 
+        margin-top: 140px; 
     }
-    .envelope-wrapper.open .invitation-card {
-        transform: translate(-50%, -190px) scale(0.9);
+    .envelope-wrapper.open .invitation-card { 
+        transform: translate(-50%, -190px) scale(1); 
     }
 }
