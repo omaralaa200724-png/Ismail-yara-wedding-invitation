@@ -11,19 +11,30 @@ html, body {
 }
 
 body {
-    /* Set to back.png or back.jpg depending on your file name */
-    background-image: url("back.png"); 
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Cairo', sans-serif;
+    color: #1e293b;
     min-height: 100vh;
-    min-height: 100dvh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-family: 'Inter', sans-serif;
-    color: #1e293b;
+    align-items: flex-start; /* Changed to start so scrolling works better */
+    overflow-x: hidden;
+    background-color: #fdfaf3; /* Fallback color */
+}
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Replace back.png with your image name */
+    background-image: url("back.png"); 
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: -1; /* This keeps it behind the text */
 }
 
 /* Ensure background image stays covered nicely on mobile devices */
@@ -518,5 +529,10 @@ body {
 
     .photo-placeholder {
         height: 140px;
+    }
+}
+@media screen and (max-width: 768px) {
+    body::before {
+        background-attachment: scroll; /* Better performance on older phones */
     }
 }
