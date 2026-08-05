@@ -47,7 +47,8 @@
 
     <div class="main-content">
         <h1 class="title">CEREMONY INFO</h1>
-        <p class="announcement">WE JOYFULLY ANNOUNCE THE<br>WEDDING OF OUR CHILDREN</p>
+       <p class="announcement" id="invitation-text">WE JOYFULLY ANNOUNCE THE<br>WEDDING OF OUR CHILDREN</p>
+
         <div class="blue-line"></div>
 
         <div class="names-stack">
@@ -143,157 +144,106 @@
     </div>
 
     <script>
+    /* --- 1. Personalized Greeting Logic --- */
+    window.addEventListener('load', () => {
+        let guestName = localStorage.getItem('wedding_guest_name');
+        if (!guestName || guestName.trim() === "") guestName = "Guest";
 
-/* --- Personalized Invitation Logic --- */
-window.addEventListener('load', () => {
-    // 1. Check if we already have the name in the browser's memory
-    let guestName = localStorage.getItem('wedding_guest_name');
-
-    // 2. If no name is saved, ask for it
-    if (!guestName) {
-        guestName = prompt("Please enter your name to view the invitation:");
-        if (guestName && guestName.trim() !== "") {
-            // Save the name so it remembers them next time they open the site
-            localStorage.setItem('wedding_guest_name', guestName);
-        }
-    }
-
-    // 3. If we have a name, replace the text
-    if (guestName) {
         const inviteElement = document.getElementById('invitation-text');
-        inviteElement.innerHTML = `We are delighted to invite you <br> 
-            <span style="color: #60a5fa; font-size: 18px; text-transform: uppercase;">"${guestName}"</span> <br> 
-            to share in our special day...`;
+        if (inviteElement) {
+            inviteElement.innerHTML = `We are delighted to invite you <br> 
+                <span style="color: #60a5fa; font-size: 18px; font-weight: 800; text-transform: uppercase;">"${guestName}"</span> <br> 
+                to share in our special day…`;
+        }
+        const guestbookInput = document.getElementById('guest-name');
+        if (guestbookInput) guestbookInput.value = guestName;
+    });
+
+    /* --- 2. Music Logic --- */
+    const music = document.getElementById("weddingMusic");
+    const btn = document.getElementById("musicBtn");
+    const icon = document.getElementById("musicIcon");
+    const text = document.getElementById("musicText");
+
+    function toggleMusic() {
+        if (music.paused) { playMusic(); } else { pauseMusic(); }
     }
-});
-        
-        /* --- 1. Music Logic --- */
-        const music = document.getElementById("weddingMusic");
-        const btn = document.getElementById("musicBtn");
-        const icon = document.getElementById("musicIcon");
-        const text = document.getElementById("musicText");
+    function playMusic() {
+        music.play();
+        btn.classList.add("playing");
+        icon.className = "fas fa-pause";
+        text.innerText = "STOP MUSIC";
+    }
+    function pauseMusic() {
+        music.pause();
+        btn.classList.remove("playing");
+        icon.className = "fas fa-play";
+        text.innerText = "PLAY MUSIC";
+    }
 
-        function toggleMusic() {
-            if (music.paused) { playMusic(); } else { pauseMusic(); }
-        }
-        function playMusic() {
-            music.play();
-            btn.classList.add("playing");
-            icon.className = "fas fa-pause";
-            text.innerText = "STOP MUSIC";
-        }
-        function pauseMusic() {
-            music.pause();
-            btn.classList.remove("playing");
-            icon.className = "fas fa-play";
-            text.innerText = "PLAY MUSIC";
-        }
+    /* --- 3. Countdown Logic --- */
+    const targetDate = new Date("September 4, 2026 20:00:00").getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const dist = targetDate - now;
+        document.getElementById("days").innerText = Math.floor(dist / 86400000).toString().padStart(2, '0');
+        document.getElementById("hours").innerText = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
+        document.getElementById("minutes").innerText = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
+        document.getElementById("seconds").innerText = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
+    }, 1000);
 
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                music.play().then(() => {
-                    btn.classList.add("playing");
-                    icon.className = "fas fa-pause";
-                    text.innerText = "STOP MUSIC";
-                }).catch(e => console.log("Autoplay blocked"));
-            }, 500);
+    /* --- 4. Guestbook & Modal Logic --- */
+    let myId = localStorage.getItem('wedding_user_id') || 'user_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('wedding_user_id', myId);
+
+    const wishForm = document.getElementById('guestbook-form');
+    const wishesDisplay = document.getElementById('wishes-display');
+
+    window.addEventListener('load', loadWishes);
+
+    wishForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
+        const newWish = {
+            id: Date.now(), 
+            ownerId: myId,
+            name: document.getElementById('guest-name').value,
+            wish: document.getElementById('guest-wish').value
+        };
+        wishes.unshift(newWish);
+        localStorage.setItem('weddingWishes', JSON.stringify(wishes));
+        document.getElementById('guest-wish').value = ""; 
+        loadWishes();
+    });
+
+    function loadWishes() {
+        wishesDisplay.innerHTML = '';
+        const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
+        wishes.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'wish-card';
+            const deleteBtnHtml = item.ownerId === myId ? `<button class="delete-wish-btn" onclick="deleteWish(${item.id})"><i class="fas fa-trash-alt"></i> Delete</button>` : '';
+            card.innerHTML = `<h4>${item.name}</h4><p>"${item.wish}"</p>${deleteBtnHtml}`;
+            wishesDisplay.appendChild(card);
         });
+    }
 
-        /* --- 2. Countdown Logic --- */
-        const targetDate = new Date("September 4, 2026 20:00:00").getTime();
-        setInterval(() => {
-            const now = new Date().getTime();
-            const dist = targetDate - now;
-            document.getElementById("days").innerText = Math.floor(dist / 86400000).toString().padStart(2, '0');
-            document.getElementById("hours").innerText = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
-        }, 1000);
-
-        /* --- 3. Guestbook Logic (Updated for Deleting own messages) --- */
-        
-        // Create or get a unique User ID for this browser
-        let myId = localStorage.getItem('wedding_user_id');
-        if (!myId) {
-            myId = 'user_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('wedding_user_id', myId);
-        }
-
-        const wishForm = document.getElementById('guestbook-form');
-        const wishesDisplay = document.getElementById('wishes-display');
-
-        window.addEventListener('load', loadWishes);
-
-        wishForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-            
-            // Add unique ID to the message and mark it with the current user's ID
-            const newWish = {
-                id: Date.now(), 
-                ownerId: myId,
-                name: document.getElementById('guest-name').value,
-                wish: document.getElementById('guest-wish').value
-            };
-            
-            wishes.unshift(newWish);
+    function deleteWish(id) {
+        if (confirm("Delete this message?")) {
+            let wishes = JSON.parse(localStorage.getItem('weddingWishes')).filter(w => w.id !== id);
             localStorage.setItem('weddingWishes', JSON.stringify(wishes));
-            wishForm.reset(); 
             loadWishes();
-        });
-
-        function loadWishes() {
-            wishesDisplay.innerHTML = '';
-            const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-            
-            wishes.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'wish-card';
-                
-                // Only show delete button if the browser's ID matches the ownerId of the wish
-                const deleteBtnHtml = item.ownerId === myId ? 
-                    `<button class="delete-wish-btn" onclick="deleteWish(${item.id})">
-                        <i class="fas fa-trash-alt"></i> Delete
-                    </button>` : '';
-
-                card.innerHTML = `
-                    <h4>${item.name}</h4>
-                    <p>"${item.wish}"</p>
-                    ${deleteBtnHtml}
-                `;
-                wishesDisplay.appendChild(card);
-            });
         }
+    }
 
-        function deleteWish(id) {
-            if (confirm("Are you sure you want to delete your message?")) {
-                let wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-                wishes = wishes.filter(w => w.id !== id);
-                localStorage.setItem('weddingWishes', JSON.stringify(wishes));
-                loadWishes();
-            }
-        }
+    function accessAfterParty() {
+        const password = prompt("Please enter the access code:");
+        if (password === "6627") document.getElementById('partyModal').style.display = 'flex';
+        else if (password !== null) alert("Wrong password.");
+    }
 
-        function accessAfterParty() {
-            const password = prompt("Please enter the access code:");
-            if (password === "6627") {
-                document.getElementById('partyModal').style.display = 'flex';
-            } else if (password !== null) {
-                alert("Wrong password. Please try again.");
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('partyModal').style.display = 'none';
-        }
-
-        // Close modal if user clicks outside the box
-        window.onclick = function(event) {
-            const modal = document.getElementById('partyModal');
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
+    function closeModal() { document.getElementById('partyModal').style.display = 'none'; }
+    window.onclick = function(event) { if (event.target == document.getElementById('partyModal')) closeModal(); }
+</script>
 </body>
 </html>
