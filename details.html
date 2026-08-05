@@ -143,6 +143,30 @@
     </div>
 
     <script>
+
+/* --- Personalized Invitation Logic --- */
+window.addEventListener('load', () => {
+    // 1. Check if we already have the name in the browser's memory
+    let guestName = localStorage.getItem('wedding_guest_name');
+
+    // 2. If no name is saved, ask for it
+    if (!guestName) {
+        guestName = prompt("Please enter your name to view the invitation:");
+        if (guestName && guestName.trim() !== "") {
+            // Save the name so it remembers them next time they open the site
+            localStorage.setItem('wedding_guest_name', guestName);
+        }
+    }
+
+    // 3. If we have a name, replace the text
+    if (guestName) {
+        const inviteElement = document.getElementById('invitation-text');
+        inviteElement.innerHTML = `We are delighted to invite you <br> 
+            <span style="color: #60a5fa; font-size: 18px; text-transform: uppercase;">"${guestName}"</span> <br> 
+            to share in our special day...`;
+    }
+});
+        
         /* --- 1. Music Logic --- */
         const music = document.getElementById("weddingMusic");
         const btn = document.getElementById("musicBtn");
