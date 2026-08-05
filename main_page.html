@@ -54,6 +54,16 @@
             e.stopPropagation();
             envelopeWrapper.classList.add('open');
         });
+
+        window.addEventListener('load', () => {
+            let guestName = localStorage.getItem('wedding_guest_name');
+            if (!guestName) {
+                guestName = prompt("Please enter your name to view the invitation:");
+                if (guestName && guestName.trim() !== "") {
+                    localStorage.setItem('wedding_guest_name', guestName);
+                }
+            }
+        });
     </script>
 </body>
 </html>
