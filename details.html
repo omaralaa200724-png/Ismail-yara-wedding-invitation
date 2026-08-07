@@ -40,9 +40,10 @@
         </button>
     </div>
 
-  <audio id="weddingMusic" loop>
-    <source src="wedding-song.mp3" type="audio/mpeg">
-</audio>
+    <!-- AUDIO ELEMENT -->
+    <audio id="weddingMusic" loop autoplay>
+        <source src="wedding-song.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="main-content">
         <h1 class="title">CEREMONY INFO</h1>
@@ -142,7 +143,7 @@
         </div>
     </div>
 
-   <script>
+    <script>
     /* --- 1. Personalized Greeting Logic --- */
     window.addEventListener('load', () => {
         let guestName = localStorage.getItem('wedding_guest_name');
@@ -158,65 +159,76 @@
         if (guestbookInput) guestbookInput.value = guestName;
     });
 
-    /* --- 2. Robust Music Logic (Fixed Stop Button) --- */
-    const music = document.getElementById("weddingMusic");
-    const musicBtn = document.getElementById("musicBtn");
-    const musicIcon = document.getElementById("musicIcon");
-    const musicLabel = document.getElementById("musicText");
+  /* --- Mobile-Optimized Music Logic (English) --- */
+const music = document.getElementById("weddingMusic");
+const musicBtn = document.getElementById("musicBtn");
+const musicIcon = document.getElementById("musicIcon");
+const musicLabel = document.getElementById("musicText");
 
-    function toggleMusic() {
-        if (music.paused) {
-            playWeddingMusic();
-        } else {
-            pauseWeddingMusic();
-        }
-    }
+function toggleMusic() {
+    if (music.paused) { playWeddingMusic(); } 
+    else { pauseWeddingMusic(); }
+}
 
-    function playWeddingMusic() {
+function playWeddingMusic() {
+    music.play().then(() => {
+        musicBtn.classList.add("playing");
+        musicIcon.className = "fas fa-pause";
+        musicLabel.innerText = "STOP MUSIC";
+    }).catch(e => console.log("Playback blocked"));
+}
+
+function pauseWeddingMusic() {
+    music.pause();
+    musicBtn.classList.remove("playing");
+    musicIcon.className = "fas fa-play";
+    musicLabel.innerText = "PLAY MUSIC";
+}
+
+// THE MOBILE FIX: Trigger music on the very first touch/click on the screen
+function handleFirstInteraction() {
+    playWeddingMusic();
+    // Remove listeners so it doesn't keep trying to play every time you touch
+    window.removeEventListener('touchstart', handleFirstInteraction);
+    window.removeEventListener('click', handleFirstInteraction);
+}
+
+window.addEventListener('touchstart', handleFirstInteraction);
+window.addEventListener('click', handleFirstInteraction);
+
+// Still keep the auto-play attempt for Desktops
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => { playWeddingMusic(); }, 1000);
+});
+
+// Auto-play attempt when page loads
+window.addEventListener('DOMContentLoaded', () => {
+    // Small delay to allow the page to settle
+    setTimeout(() => {
         music.play().then(() => {
             musicBtn.classList.add("playing");
             musicIcon.className = "fas fa-pause";
             musicLabel.innerText = "STOP MUSIC";
-        }).catch(e => {
-            console.log("Playback blocked by browser settings.");
+        }).catch(() => {
+            console.log("Autoplay blocked by browser - waiting for user click.");
+            // Keep text as "PLAY MUSIC" until they click
+            musicLabel.innerText = "PLAY MUSIC";
         });
-    }
-
-    function pauseWeddingMusic() {
-        music.pause();
-        musicBtn.classList.remove("playing");
-        musicIcon.className = "fas fa-play";
-        musicLabel.innerText = "PLAY MUSIC";
-    }
-
-    // This ensures the music starts on the first click/touch anywhere on the screen
-    // but won't interfere with the button's ability to stop it later.
-    function handleFirstInteraction() {
-        if (music.paused) {
-            playWeddingMusic();
-        }
-        // Remove listeners so it only triggers once
-        window.removeEventListener('touchstart', handleFirstInteraction);
-        window.removeEventListener('click', handleFirstInteraction);
-    }
-
-    window.addEventListener('touchstart', handleFirstInteraction);
-    window.addEventListener('click', handleFirstInteraction);
+    }, 1000);
+});
 
     /* --- 3. Countdown Logic --- */
     const targetDate = new Date("September 4, 2026 20:00:00").getTime();
     setInterval(() => {
         const now = new Date().getTime();
         const dist = targetDate - now;
-        if (dist < 0) return; // Stop if date passed
-        
         document.getElementById("days").innerText = Math.floor(dist / 86400000).toString().padStart(2, '0');
         document.getElementById("hours").innerText = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
         document.getElementById("minutes").innerText = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
         document.getElementById("seconds").innerText = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
     }, 1000);
 
-    /* --- 4. Guestbook Logic --- */
+    /* --- 4. Guestbook & Modal Logic --- */
     let myId = localStorage.getItem('wedding_user_id') || 'user_' + Math.random().toString(36).substr(2, 9);
     localStorage.setItem('wedding_user_id', myId);
 
@@ -260,23 +272,14 @@
         }
     }
 
-    /* --- 5. After Party Access --- */
     function accessAfterParty() {
         const password = prompt("Please enter the access code:");
-        if (password === "6627") {
-            document.getElementById('partyModal').style.display = 'flex';
-        } else if (password !== null) {
-            alert("Wrong password.");
-        }
+        if (password === "6627") document.getElementById('partyModal').style.display = 'flex';
+        else if (password !== null) alert("Wrong password.");
     }
 
-    function closeModal() { 
-        document.getElementById('partyModal').style.display = 'none'; 
-    }
-    
-    window.onclick = function(event) { 
-        if (event.target == document.getElementById('partyModal')) closeModal(); 
-    }
+    function closeModal() { document.getElementById('partyModal').style.display = 'none'; }
+    window.onclick = function(event) { if (event.target == document.getElementById('partyModal')) closeModal(); }
 </script>
 </body>
 </html>
