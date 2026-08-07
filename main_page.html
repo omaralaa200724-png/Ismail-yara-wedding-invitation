@@ -40,15 +40,85 @@
 
         /* Mobile Fix */
         @media screen and (max-width: 768px) {
-            body {
-                /* Use your vertical mobile image here */
-                background-image: url("mobile-background.png") !important;
-                background-position: center top !important;
-            }
-            .envelope-wrapper {
-                transform: scale(0.58) translateY(30px);
-            }
-        }
+    body {
+        background-image: url("mobile-background.png") !important;
+        background-position: center top !important;
+    }
+
+    /* 1. Rectangular Envelope remains as we built it */
+    .envelope-wrapper {
+        width: 360px !important;
+        height: 200px !important;
+        transform: scale(0.65) translateY(60px) !important;
+        display: block !important;
+    }
+
+    .envelope {
+        position: absolute !important;
+        width: 360px !important;
+        height: 200px !important;
+    }
+
+    /* 2. INCREASED FONT SIZES (Mobile Only) */
+    .name { 
+        font-size: 38px !important; /* Larger names */
+        letter-spacing: 2px !important;
+        margin-bottom: 5px !important;
+    }
+
+    .and-text { 
+        font-size: 50px !important; /* Larger ampersand */
+        margin: 10px 0 !important;
+    }
+
+    .wedding-date { 
+        font-size: 20px !important; /* Larger date */
+        margin-top: 10px !important;
+    }
+
+    .invite-text { 
+        font-size: 16px !important; /* Larger cordially invite text */
+        margin-bottom: 20px !important;
+    }
+
+    /* 3. LARGER BUTTON (Mobile Only) */
+    .open-btn {
+        padding: 15px 0 !important;
+        font-size: 18px !important;
+        width: 90% !important;
+        border-radius: 50px !important;
+    }
+
+    /* 4. ADJUST THE CARD TO FIT BIGGER TEXT */
+    .invitation-card {
+        position: absolute !important;
+        width: 340px !important;
+        height: 480px !important; /* Made taller to fit the bigger text */
+        padding: 40px 20px !important;
+        left: 10px !important;
+        bottom: 10px !important;
+        transform: scale(1) !important;
+    }
+
+    /* 5. ADJUST OPEN ANIMATION */
+    /* Since the text is bigger and card is taller, 
+       we pop it up higher to make sure the button is visible */
+    .envelope-wrapper.open .invitation-card {
+        transform: translateY(-380px) !important; 
+        z-index: 10 !important;
+    }
+    
+    .envelope-wrapper.open .flap {
+        transform: rotateX(180deg) !important;
+        z-index: 1 !important;
+    }
+
+    .wax-seal {
+        top: 85px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+}
     </style>
 </head>
 <body>
