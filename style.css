@@ -1,215 +1,89 @@
-/* 1. Import Premium Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700&display=swap');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wedding Invitation - Ismail & Yara</title>
+    
+    <!-- We load your style.css first -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+    /* ... (your existing PC styles) ... */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    @media screen and (max-width: 768px) {
+        body {
+            background-image: url("mobile-background.png") !important;
+            background-position: center top !important;
+        }
 
-body {
-    background: linear-gradient(135deg, #238ea0 0%, #4b2c8a 100%);
-    min-height: 100dvh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Inter', sans-serif;
-    overflow: hidden; /* Prevents scrolling on the main page */
-}
+        /* 1. MAKE ENVELOPE RECTANGULAR ON MOBILE */
+        .envelope {
+            width: 350px !important;  /* Make it wider */
+            height: 200px !important; /* Make it shorter */
+        }
 
-/* --- BACKGROUND ANIMATED BLOBS --- */
-.background-blobs {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100dvh;
-    z-index: 0;
-}
+        /* 2. ADJUST THE FLAP (The top triangle) */
+        .flap {
+            border-left: 175px solid transparent !important; /* Half of new width */
+            border-right: 175px solid transparent !important; /* Half of new width */
+            border-top: 110px solid #2c3e50 !important; /* Adjust height of triangle */
+        }
 
-.blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.4;
-    animation: move 20s infinite alternate;
-}
+        /* 3. ADJUST THE POCKET (The bottom part) */
+        .pocket {
+            border-left: 175px solid #2c3e50 !important;
+            border-right: 175px solid #2c3e50 !important;
+            border-bottom: 100px solid #1a252f !important;
+            border-top: 100px solid transparent !important;
+        }
 
-.blob-1 { width: 600px; height: 600px; background: #1e40af; top: -150px; left: -150px; }
-.blob-2 { width: 500px; height: 500px; background: #4c1d95; bottom: -100px; right: -100px; }
+        /* 4. ADJUST THE CARD INSIDE */
+        .invitation-card {
+            width: 330px !important; /* Slightly smaller than envelope width */
+            height: 180px !important; /* Slightly smaller than envelope height */
+        }
 
-@keyframes move {
-    from { transform: translate(0, 0); }
-    to { transform: translate(100px, 100px); }
-}
-
-/* --- ENVELOPE WRAPPER --- */
-.envelope-wrapper {
-    position: relative;
-    width: 520px;
-    height: 350px;
-    z-index: 10;
-    perspective: 1500px;
-    margin-top: 80px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-/* 3D Envelope Base */
-.envelope {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #253346;
-    border-radius: 8px;
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
-}
-
-/* Top Flap */
-.flap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #192231;
-    clip-path: polygon(0 0, 50% 62%, 100% 0);
-    z-index: 5;
-    transform-origin: top;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.4s;
-    filter: drop-shadow(0px 6px 5px rgba(0,0,0,0.5));
-}
-
-/* Envelope Front Pocket */
-.pocket {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #253346;
-    clip-path: polygon(0 35%, 50% 62%, 100% 35%, 100% 100%, 0 100%);
-    z-index: 4;
-    border-radius: 0 0 8px 8px;
-}
-
-/* Wax Seal */
-.wax-seal {
-    position: absolute;
-    top: 198px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 65px;
-    height: 65px;
-    background: radial-gradient(circle at 35% 35%, #dc2626, #7f1d1d);
-    border-radius: 50%;
-    z-index: 6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    border: 2px solid #991b1b;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* --- THE INVITATION CARD --- */
-.invitation-card {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%) scale(0.9);
-    width: 380px;
-    height: 480px;
-    background: #fdfaf3;
-    border-radius: 30px;
-    padding: 35px 25px;
-    text-align: center;
-    z-index: 2;
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.2) 0.5s,opacity 0.6s ease 0.5s, z-index 0s 0.5s;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-}
-
-.avatar-circle {
-    width: 70px;
-    height: 70px;
-    border: 2px solid #5dade2;
-    border-radius: 50%;
-    margin: 0 auto 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #1e293b;
-    overflow: hidden;
-}
-
-.name {
-    font-family: 'Cinzel', serif;
-    font-size: 28px;
-    letter-spacing: 3px;
-    color: #1e293b;
-    line-height: 1.1;
-    font-weight: 700;
-}
-
-.and-text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 36px;
-    color: #5dade2;
-    display: block;
-    margin: 8px 0;
-}
-
-.elegant-line {
-    width: 50px;
-    height: 1px;
-    background: #cbd5e1;
-    margin: 15px auto;
-}
-
-.wedding-date { font-weight: 700; color: #1e293b; font-size: 16px; }
-.invite-text { color: #94a3b8; font-size: 13px; margin-bottom: 25px; }
-
-.open-btn {
-    display: block;
-    width: 80%;
-    margin: 0 auto;
-    background: #2c3748;
-    color: white;
-    text-decoration: none;
-    padding: 14px 0;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.open-btn:hover { background: #1e293b; transform: scale(1.03); }
-
-/* --- OPEN STATE ANIMATION --- */
-.envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 1; }
-.envelope-wrapper.open .wax-seal { opacity: 0; transform: translate(-50%, -20px) scale(0); }
-.envelope-wrapper.open .invitation-card {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translate(-50%, -140px) scale(1); 
-    z-index: 10;
-}
-
-@media (max-width: 600px) {
-    .envelope-wrapper { transform: scale(0.8); margin-top: 100px; }
-    .envelope-wrapper.open .invitation-card { transform: translate(-50%, -180px) scale(1); }
-}
-
-/* Ensure background image stays covered nicely on mobile devices */
-@media screen and (max-width: 768px) {
-    body {
-        background-attachment: scroll;
-        background-size: cover;
-        background-position: center top;
+        .envelope-wrapper {
+            /* Adjust scale to fit the new rectangular shape on screen */
+            transform: scale(0.65) translateY(40px); 
+        }
     }
-}
+</style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" id="envelopeWrapper">
+        <!-- ... (Invitation Card Content) ... -->
+        <div class="invitation-card">
+            <div class="avatar-circle">
+                <img src="heart.png" alt="♥" style="width: 40px; height: 40px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/833/833472.png'">
+            </div>
+            <h1 class="name">ISMAIL</h1>
+            <span class="and-text">&</span>
+            <h1 class="name">YARA</h1>
+            <div class="elegant-line"></div>
+            <p class="wedding-date">September 04, 2026</p>
+            <p class="invite-text">cordially invite.</p>
+            <a href="details.html" class="open-btn">Open</a>
+        </div>
+
+        <div class="envelope">
+            <div class="flap"></div>
+            <div class="pocket"></div>
+            <div class="wax-seal" id="waxSeal">
+                <span style="font-size: 25px; color: white;">♥</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const waxSeal = document.getElementById('waxSeal');
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        waxSeal.addEventListener('click', (e) => {
+            e.stopPropagation();
+            envelopeWrapper.classList.add('open');
+        });
+    </script>
+</body>
+</html>
