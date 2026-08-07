@@ -93,7 +93,7 @@
     left: 50%;
     transform: translateX(-50%) scale(0.9);
     width: 350px;
-    height: 450px;
+    height: 470px;
     background: #fdfaf3;
     border-radius: 30px;
     padding: 35px 25px;
@@ -120,7 +120,7 @@
 
 .name {
     font-family: 'Cinzel', serif;
-    font-size: 28px;
+    font-size: 38px;
     letter-spacing: 3px;
     color: #1e293b;
     line-height: 1.1;
@@ -130,7 +130,7 @@
 .and-text {
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 36px;
+    font-size: 52px;
     color: #5dade2;
     display: block;
     margin: 8px 0;
@@ -143,8 +143,20 @@
     margin: 15px auto;
 }
 
-.wedding-date { font-weight: 700; color: #1e293b; font-size: 16px; }
-.invite-text { color: #94a3b8; font-size: 13px; margin-bottom: 25px; }
+/* --- DATE SIZE INCREASE --- */
+.wedding-date { 
+    font-weight: 700; 
+    color: #1e293b; 
+    font-size: 19px; /* Increased from 16px */
+    letter-spacing: 1px;
+}
+
+/* --- INVITE TEXT SIZE INCREASE --- */
+.invite-text { 
+    color: #94a3b8; 
+    font-size: 19px; /* Increased from 13px */
+    margin-bottom: 30px; 
+}
 
 .open-btn {
     display: block;
