@@ -92,8 +92,8 @@
     top: 10px;
     left: 50%;
     transform: translateX(-50%) scale(0.9);
-    width: 380px;
-    height: 480px;
+    width: 350px;
+    height: 450px;
     background: #fdfaf3;
     border-radius: 30px;
     padding: 35px 25px;
@@ -184,3 +184,4 @@
         background-position: center top;
     }
 }
+
