@@ -159,62 +159,57 @@
         if (guestbookInput) guestbookInput.value = guestName;
     });
 
-  /* --- Mobile-Optimized Music Logic (English) --- */
+/* --- Final Music Fix (State-Sync) --- */
 const music = document.getElementById("weddingMusic");
 const musicBtn = document.getElementById("musicBtn");
 const musicIcon = document.getElementById("musicIcon");
 const musicLabel = document.getElementById("musicText");
 
-function toggleMusic() {
-    if (music.paused) { playWeddingMusic(); } 
-    else { pauseWeddingMusic(); }
-}
-
-function playWeddingMusic() {
-    music.play().then(() => {
+// 1. THE BRAIN: This function makes the button match the ACTUAL music state
+function syncButtonWithMusic() {
+    if (music.paused) {
+        musicBtn.classList.remove("playing");
+        musicIcon.className = "fas fa-play";
+        musicLabel.innerText = "PLAY MUSIC";
+    } else {
         musicBtn.classList.add("playing");
         musicIcon.className = "fas fa-pause";
         musicLabel.innerText = "STOP MUSIC";
-    }).catch(e => console.log("Playback blocked"));
+    }
 }
 
-function pauseWeddingMusic() {
-    music.pause();
-    musicBtn.classList.remove("playing");
-    musicIcon.className = "fas fa-play";
-    musicLabel.innerText = "PLAY MUSIC";
+// 2. TELL THE MUSIC TO UPDATE THE BUTTON:
+// These run automatically whenever the music starts or stops
+music.onplay = syncButtonWithMusic;
+music.onpause = syncButtonWithMusic;
+
+// 3. THE TOGGLE: Only handle the audio, let the sync above handle the UI
+function toggleMusic() {
+    if (music.paused) {
+        music.play().catch(e => console.log("Playback blocked"));
+    } else {
+        music.pause();
+    }
 }
 
-// THE MOBILE FIX: Trigger music on the very first touch/click on the screen
+// 4. THE MOBILE FIX: First touch starts the music
 function handleFirstInteraction() {
-    playWeddingMusic();
-    // Remove listeners so it doesn't keep trying to play every time you touch
-    window.removeEventListener('touchstart', handleFirstInteraction);
-    window.removeEventListener('click', handleFirstInteraction);
+    if (music.paused) {
+        music.play().then(() => {
+            // Once it starts, the 'onplay' event above will fix the button instantly
+            window.removeEventListener('touchstart', handleFirstInteraction);
+            window.removeEventListener('click', handleFirstInteraction);
+        }).catch(e => console.log("Waiting for user..."));
+    }
 }
 
 window.addEventListener('touchstart', handleFirstInteraction);
 window.addEventListener('click', handleFirstInteraction);
 
-// Still keep the auto-play attempt for Desktops
+// Also try to start on load for PC
 window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => { playWeddingMusic(); }, 1000);
-});
-
-// Auto-play attempt when page loads
-window.addEventListener('DOMContentLoaded', () => {
-    // Small delay to allow the page to settle
-    setTimeout(() => {
-        music.play().then(() => {
-            musicBtn.classList.add("playing");
-            musicIcon.className = "fas fa-pause";
-            musicLabel.innerText = "STOP MUSIC";
-        }).catch(() => {
-            console.log("Autoplay blocked by browser - waiting for user click.");
-            // Keep text as "PLAY MUSIC" until they click
-            musicLabel.innerText = "PLAY MUSIC";
-        });
-    }, 1000);
+    syncButtonWithMusic(); // Set initial state
+    setTimeout(() => { music.play().catch(() => {}); }, 1000);
 });
 
     /* --- 3. Countdown Logic --- */
