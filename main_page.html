@@ -7,61 +7,70 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* 1. RESET & FULL SCREEN */
+        /* 1. PROFESSIONAL MOBILE RESET */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
         html, body {
-            margin: 0;
-            padding: 0;
+            overflow: hidden; /* Prevents unwanted scrolling on the landing page */
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            background-color: #f5f2e9; /* Matching cream backup color */
         }
 
         body {
-            /* 2. THE BACKGROUND FIX */
+            /* 2. THE BACKGROUND FIX (From your details code) */
             background-image: url('background.png') !important;
             background-repeat: no-repeat !important;
-            /* 'cover' ensures the screen is always 100% full */
-            background-size: cover !important; 
+            background-size: cover !important;
             background-position: center center !important;
+            
+            /* Ensures it works on all mobile screens including iPhones */
+            min-height: 100vh;
+            min-height: 100dvh; 
             
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #f5f2e9; /* Backup color */
         }
 
-        /* 3. ENVELOPE SCALING */
+        /* 3. ENVELOPE SCALING FOR MOBILE */
         .envelope-wrapper {
             position: relative;
             cursor: pointer;
             z-index: 10;
-            /* This scale works best for most Desktop screens */
-            transform: scale(0.85);
+            /* Default for Desktop */
+            transform: scale(0.85); 
             transition: transform 0.3s ease;
         }
 
-        /* 4. MOBILE SPECIFIC OPTIMIZATION */
-        @media (max-width: 600px) {
+        /* MOBILE SPECIFIC ADJUSTMENTS */
+        @media screen and (max-width: 768px) {
             body {
-                /* Adjusting background for narrow phone screens */
-                background-position: center center !important;
-                background-size: cover !important;
+                /* Shifts background up slightly on mobile to show the top flowers better */
+                background-position: center top !important;
             }
 
             .envelope-wrapper {
-                /* Makes envelope smaller so you see more flowers on mobile */
-                transform: scale(0.55); 
-            }
-            
-            /* Prevents the invite text from being too small on phones */
-            .invitation-card {
-                padding: 20px;
+                /* REDUCED SCALE: This makes the envelope look "good" on small screens 
+                   without covering the background flowers */
+                transform: scale(0.58) translateY(20px); 
             }
         }
 
-        /* Optional: Add a smooth fade-in for a professional feel */
+        /* Support for very small phones */
+        @media screen and (max-width: 380px) {
+            .envelope-wrapper {
+                transform: scale(0.5);
+            }
+        }
+
+        /* Fade-in effect when the page opens */
         body {
-            animation: fadeInPage 1.2s ease-in-out;
+            animation: fadeInPage 1s ease-in-out;
         }
         @keyframes fadeInPage {
             from { opacity: 0; }
@@ -111,6 +120,7 @@
             envelopeWrapper.classList.add('open');
         });
 
+        // Prompt for guest name
         window.addEventListener('load', () => {
             let guestName = localStorage.getItem('wedding_guest_name');
             if (!guestName) {
