@@ -200,15 +200,9 @@ body {
     z-index: 10;
 }
 
-/* --- MOBILE SCALING (Matched to 7:52 Look) --- */
 @media (max-width: 600px) {
-    .envelope-wrapper { 
-        transform: scale(0.8); /* This is the key change */
-        margin-top: 100px; 
-    }
-    .envelope-wrapper.open .invitation-card { 
-        transform: translate(-50%, -180px) scale(1); 
-    }
+    .envelope-wrapper { transform: scale(0.8); margin-top: 100px; }
+    .envelope-wrapper.open .invitation-card { transform: translate(-50%, -180px) scale(1); }
 }
 
 /* Ensure background image stays covered nicely on mobile devices */
