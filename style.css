@@ -8,8 +8,8 @@
     <!-- We load your style.css first -->
     <link rel="stylesheet" href="style.css">
     
-    <style>
-    /* ... (your existing PC styles) ... */
+   <style>
+    /* ... (keep your PC styles at the top) ... */
 
     @media screen and (max-width: 768px) {
         body {
@@ -17,36 +17,46 @@
             background-position: center top !important;
         }
 
-        /* 1. MAKE ENVELOPE RECTANGULAR ON MOBILE */
+        /* 1. THE MAIN ENVELOPE (Wider & Shorter) */
         .envelope {
-            width: 350px !important;  /* Make it wider */
-            height: 200px !important; /* Make it shorter */
+            width: 380px !important;   /* Extra wide */
+            height: 180px !important;  /* Much shorter */
         }
 
-        /* 2. ADJUST THE FLAP (The top triangle) */
+        /* 2. THE TOP FLAP */
+        /* Width is 380, so half is 190 */
         .flap {
-            border-left: 175px solid transparent !important; /* Half of new width */
-            border-right: 175px solid transparent !important; /* Half of new width */
-            border-top: 110px solid #2c3e50 !important; /* Adjust height of triangle */
+            border-left: 190px solid transparent !important;
+            border-right: 190px solid transparent !important;
+            border-top: 100px solid #242f3f !important; /* Adjust depth of the V shape */
         }
 
-        /* 3. ADJUST THE POCKET (The bottom part) */
+        /* 3. THE POCKET (Bottom & Sides) */
         .pocket {
-            border-left: 175px solid #2c3e50 !important;
-            border-right: 175px solid #2c3e50 !important;
-            border-bottom: 100px solid #1a252f !important;
-            border-top: 100px solid transparent !important;
+            border-left: 190px solid #2c3e50 !important;
+            border-right: 190px solid #2c3e50 !important;
+            border-bottom: 90px solid #1a252f !important;
+            border-top: 90px solid transparent !important;
         }
 
-        /* 4. ADJUST THE CARD INSIDE */
+        /* 4. THE CARD INSIDE */
+        /* Must be slightly smaller than 380x180 to fit inside */
         .invitation-card {
-            width: 330px !important; /* Slightly smaller than envelope width */
-            height: 180px !important; /* Slightly smaller than envelope height */
+            width: 360px !important; 
+            height: 160px !important;
+        }
+
+        /* 5. THE WAX SEAL */
+        .wax-seal {
+            /* Make sure it stays exactly in the center of the wider envelope */
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            bottom: 70px !important; /* Move it up/down to hit the point of the V */
         }
 
         .envelope-wrapper {
-            /* Adjust scale to fit the new rectangular shape on screen */
-            transform: scale(0.65) translateY(40px); 
+            /* Adjust the scale so the wide envelope doesn't hit the screen edges */
+            transform: scale(0.6) translateY(50px); 
         }
     }
 </style>
