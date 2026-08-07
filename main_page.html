@@ -7,76 +7,79 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* 1. PROFESSIONAL MOBILE RESET */
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-        }
+    /* 1. PROFESSIONAL RESET */
+    * { 
+        margin: 0; 
+        padding: 0; 
+        box-sizing: border-box; 
+    }
 
-        html, body {
-            overflow: hidden; /* Prevents unwanted scrolling on the landing page */
-            width: 100%;
-            height: 100%;
-        }
+    html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden; /* Prevents scrolling on the envelope page */
+    }
 
+    body {
+        /* 2. BACKGROUND SETTINGS (Matching the good-looking page) */
+        background-image: url('background.png') !important; 
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        
+        /* This ensures the top flowers are visible like in your 2nd photo */
+        background-position: center top !important; 
+        
+        /* Ensures the background fills the whole screen including the mobile URL bar area */
+        min-height: 100vh;
+        min-height: 100dvh; 
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f5f2e9;
+    }
+
+    /* 3. ENVELOPE SCALING */
+    .envelope-wrapper {
+        position: relative;
+        cursor: pointer;
+        z-index: 10;
+        /* Desktop Scale */
+        transform: scale(0.85); 
+        transition: transform 0.3s ease;
+    }
+
+    /* 4. MOBILE SPECIFIC OPTIMIZATION (Fixing the "Zoomed" look) */
+    @media screen and (max-width: 768px) {
         body {
-            /* 2. THE BACKGROUND FIX (From your details code) */
-            background-image: url('background.png') !important;
-            background-repeat: no-repeat !important;
-            background-size: cover !important;
-            background-position: center center !important;
-            
-            /* Ensures it works on all mobile screens including iPhones */
-            min-height: 100vh;
-            min-height: 100dvh; 
-            
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f5f2e9; /* Backup color */
+            /* Switching to scroll fixes the background glitch on iPhones */
+            background-attachment: scroll !important;
+            background-position: center top !important;
         }
 
-        /* 3. ENVELOPE SCALING FOR MOBILE */
         .envelope-wrapper {
-            position: relative;
-            cursor: pointer;
-            z-index: 10;
-            /* Default for Desktop */
-            transform: scale(0.85); 
-            transition: transform 0.3s ease;
+            /* Scale is reduced so the envelope sits perfectly 
+               inside the white area of the background image */
+            transform: scale(0.55) translateY(40px); 
         }
+    }
 
-        /* MOBILE SPECIFIC ADJUSTMENTS */
-        @media screen and (max-width: 768px) {
-            body {
-                /* Shifts background up slightly on mobile to show the top flowers better */
-                background-position: center top !important;
-            }
+    /* Fix for very small phones */
+    @media screen and (max-width: 380px) {
+        .envelope-wrapper {
+            transform: scale(0.48) translateY(30px);
+        }
+    }
 
-            .envelope-wrapper {
-                /* REDUCED SCALE: This makes the envelope look "good" on small screens 
-                   without covering the background flowers */
-                transform: scale(0.58) translateY(20px); 
-            }
-        }
-
-        /* Support for very small phones */
-        @media screen and (max-width: 380px) {
-            .envelope-wrapper {
-                transform: scale(0.5);
-            }
-        }
-
-        /* Fade-in effect when the page opens */
-        body {
-            animation: fadeInPage 1s ease-in-out;
-        }
-        @keyframes fadeInPage {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+    /* Professional Fade-in */
+    body {
+        animation: fadeInPage 1.2s ease-in-out;
+    }
+    @keyframes fadeInPage {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
 </head>
 <body>
 
